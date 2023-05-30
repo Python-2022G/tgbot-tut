@@ -1,24 +1,39 @@
 import requests
+import time
 from settings import TOKEN
 
-url_for_getupdates = f'https://api.telegram.org/bot{TOKEN}/getUpdates'
 
-response = requests.get(url_for_getupdates)
+def get_last_update():
+    url_for_getupdates = f'https://api.telegram.org/bot{TOKEN}/getUpdates'
 
-updates = response.json()['result']
-last_update = updates[-1]
+    response = requests.get(url_for_getupdates)
 
-text = last_update['message']['text']
-chat_id = last_update['message']['chat']['id']
+    updates = response.json()['result']
+    last_update = updates[-1]
 
-print(chat_id, text)
+    return last_update
 
-url_for_sendmessage = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
-
-params = {
-    'chat_id': chat_id,
-    'text': text
-}
+def send_message(chat_id, text):
+    url_for_sendmessage = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
     
-response = requests.get(url_for_sendmessage, params=params)
+    params = {
+        'chat_id': chat_id,
+        'text': text
+    }
+    
+    response = requests.get(url_for_sendmessage, params=params)
+    return response
 
+
+def main():
+
+    while True:
+        last_update = get_last_update()
+
+        text = last_update['message']['text']
+        chat_id = last_update['message']['chat']['id']
+
+        send_message(chat_id, text)
+        time.sleep(1)
+
+main()

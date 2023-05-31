@@ -26,14 +26,20 @@ def send_message(chat_id, text):
 
 
 def main():
+    last_update_id = 0
 
     while True:
-        last_update = get_last_update()
+        curr_update = get_last_update()
 
-        text = last_update['message']['text']
-        chat_id = last_update['message']['chat']['id']
+        if last_update_id != curr_update['update_id']:
 
-        send_message(chat_id, text)
+            text = curr_update['message']['text']
+            chat_id = curr_update['message']['chat']['id']
+
+            send_message(chat_id, text)
+
+            last_update_id = curr_update['update_id'] 
+
         time.sleep(1)
 
 main()

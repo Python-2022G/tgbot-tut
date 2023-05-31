@@ -2,6 +2,17 @@ import requests
 import time
 from settings import TOKEN
 
+def start(chat_id, first_name):
+    url_for_sendmessage = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
+
+    params = {
+        'chat_id': chat_id,
+        'text': f'Hello *{first_name}*, I am echo bot',
+        'parse_mode': 'MarkdownV2'
+    }
+    
+    response = requests.get(url_for_sendmessage, params=params)
+    return response
 
 def get_last_update():
     url_for_getupdates = f'https://api.telegram.org/bot{TOKEN}/getUpdates'
@@ -32,11 +43,16 @@ def main():
         curr_update = get_last_update()
 
         if last_update_id != curr_update['update_id']:
-
-            text = curr_update['message']['text']
             chat_id = curr_update['message']['chat']['id']
 
-            send_message(chat_id, text)
+            if 'text' in curr_update['message'].keys():
+                text = curr_update['message']['text']
+                
+                if text == '/start':
+                    first_name = curr_update['message']['chat']['first_name']
+                    start(chat_id, first_name)
+                else:
+                    send_message(chat_id, text)
 
             last_update_id = curr_update['update_id'] 
 

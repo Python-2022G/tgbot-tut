@@ -13,7 +13,8 @@ def start(chat_id, first_name):
             'keyboard': [
                 ['dog']
             ],
-            'resize_keyboard': True
+            'resize_keyboard': True,
+            'one_time_keyboard': True
         }
     }
     
@@ -47,7 +48,7 @@ def send_photo(chat_id, file_id):
     params = {
         'chat_id': chat_id,
         'photo': file_id,
-        'caption': 'siz yuborgan rasmingiz',
+        'caption': 'Random dog',
     }
     
     response = requests.get(url_for_sendphoto, params=params)
@@ -73,6 +74,8 @@ def main():
                     response = requests.get(url_for_getrandomdog)
                     file_id = response.json()['url']
                     send_photo(chat_id, file_id)
+                else:
+                    send_message(chat_id, 'Iltimos, dog yuboring')
 
             last_update_id = curr_update['update_id'] 
 

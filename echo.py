@@ -40,7 +40,8 @@ def send_photo(chat_id, file_id):
     
     params = {
         'chat_id': chat_id,
-        'photo': file_id
+        'photo': file_id,
+        'caption': 'siz yuborgan rasmingiz',
     }
     
     response = requests.get(url_for_sendphoto, params=params)

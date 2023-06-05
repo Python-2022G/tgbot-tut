@@ -16,7 +16,8 @@ btn2 = {
 }
 
 keyboard = [
-    [btn1]
+    [btn1],
+    [btn2]
 ]
 
 params = {

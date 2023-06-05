@@ -6,13 +6,17 @@ URL = f'https://api.telegram.org/bot{TOKEN}/sendMessage'
 chat_id = 1258594598
 text = 'Hello, world!'
 
-btn1 = 'Button 1'
-btn2 = 'Button 2'
-btn3 = 'Button 3'
+btn1 = {
+    'text': 'Button 1',
+    'request_contact': True
+}
+btn2 = {
+    'text': 'Button 2',
+    'request_location': True
+}
 
 keyboard = [
-    [btn1, btn2],
-    [btn3]
+    [btn1]
 ]
 
 params = {
